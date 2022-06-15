@@ -30,14 +30,46 @@
              <div class="details">
                  <span class="lecture">
                      @course.Lecturer.Name
+                     <button class="btn btn-default btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
                  </span>
                  <span class="category">
                      @course.Category.Name
                  </span>
+                 <button data-course-id="@course.ID" class="btn btn-info btn-sm js-toggle-attendance">Going?</button>
              </div>
          </li>   
     }
 </ul>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".js-toggle-attendance").click(function (e) {
+                var button = $(e.target);
+                $.post("/api/attendances", { courseId: button.attr("data-course-id") })
+                    .done(function () {
+                        button
+                            .resoveClass("btn-default")
+                            .addClass("btn-info")
+                            .text("Going");
+                    })
+                    .fail(funtion(){
+                        alert("Something failed!");
+                    });
+            });
+            $(".js-toggle-follow").click(function(e){
+                var button = $(e.target);
+                $.post("/api/followings", { followeeId: button.attr("data-user-id") })
+                    .done(function () {
+                        button.text("Following");
+                    })
+                    .fail(function () {
+                        alert("Something failed");
+                    })
+            })
+        });
+    </script>
+}
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>

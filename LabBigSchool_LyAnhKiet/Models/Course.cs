@@ -9,6 +9,7 @@ namespace LabBigSchool_LyAnhKiet.Models
     public class Course
     {
         public int ID { get; set; }
+        public bool IsCanceled { get; set; }
         public ApplicationUser Lecturer { get; set; }
         [Required]
         public string LecturerId { get; set; }
